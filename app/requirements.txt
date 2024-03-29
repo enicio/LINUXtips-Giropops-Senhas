@@ -1,0 +1,4 @@
+Flask==2.3.3
+redis==4.5.4
+prometheus-client==0.16
+Werkzeug==2.3.8
