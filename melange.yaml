@@ -1,0 +1,44 @@
+package:
+  name: giropops
+  version: 0.1.0
+  description: friendly little webserver
+  target-architecture:
+    - all
+  copyright:
+    - license: Apache-2.0
+      paths:
+        - "*"
+  dependencies:
+    runtime:
+      - python3
+
+environment:
+  contents:
+    repositories:
+      - https://dl-cdn.alpinelinux.org/alpine/edge/main
+      - https://dl-cdn.alpinelinux.org/alpine/edge/community
+    packages:
+      - alpine-baselayout-data
+      - ca-certificates-bundle
+      - busybox
+      - gcc
+      - musl-dev
+      - python3
+      - python3-dev
+      - py3-pip
+      - py3-virtualenv
+      - musl
+
+pipeline:
+  - name: Build Python application
+    runs: |
+      EXECDIR="${{targets.destdir}}/usr/bin"
+      WEBAPPDIR="${{targets.destdir}}/usr/share/webapps/giropops"
+      mkdir -p "${EXECDIR}" "${WEBAPPDIR}"
+      echo "#!/usr/share/webapps/giropops/venv/bin/python3" > "${EXECDIR}/giropops"
+      cat app.py >> "${EXECDIR}/giropops"
+      chmod +x "${EXECDIR}/giropops"
+      cp -r static "${EXECDIR}"
+      cp -r templates "${EXECDIR}"
+      virtualenv "${WEBAPPDIR}/venv"
+      sh -c "source '${WEBAPPDIR}/venv/bin/activate' && pip install -r requirements.txt"

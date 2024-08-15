@@ -1,0 +1,10 @@
+docker run --privileged --rm -v "${PWD}":/work \
+  cgr.dev/chainguard/melange build melange.yaml \
+  --arch amd64,aarch64 \
+  --signing-key melange.rsa
+
+docker run --rm --workdir /work -v ${PWD}:/work cgr.dev/chainguard/apko \
+  build apko.yaml giropops-apk-2:test giropops-apk-2.tar \
+  --arch host
+
+  docker load < giropops-apk-2.tar
