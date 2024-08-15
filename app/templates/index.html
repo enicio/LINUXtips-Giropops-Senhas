@@ -32,15 +32,15 @@
         <form class="mt-10 flex flex-col items-center" action="/" method="post">
           <fieldset class="flex justify-between w-full mb-4">
             <label for="tamanho" class="text-lg mr-8">Tamanho da senha:</label>
-            <input type="range" id="tamanho" name="tamanho" min="8" max="32" value="8" oninput="result.value=value" />
-            <output id="result" for="tamanho" class="ml-4 text-center py-1 rounded bg-slate-300 w-9">8</output>
+            <input type="range" id="tamanho" name="tamanho" min="8" max="32" value={{ tamanho }} oninput="result.value=value" />
+            <output id="result" for="tamanho" class="ml-4 text-center py-1 rounded bg-slate-300 w-9">{{ tamanho }}</output>
           </fieldset>
           <fieldset class="flex self-start mb-4">
-            <input type="checkbox" id="incluir_numeros" name="incluir_numeros" checked />
+            <input type="checkbox" id="incluir_numeros" name="incluir_numeros" {{ incluir_numeros_checked }}  />
             <label for="incluir_numeros" class="ml-2 text-lg">Incluir números</label>
           </fieldset>
           <fieldset class="flex self-start mb-6 w-full">
-            <input type="checkbox" id="incluir_caracteres_especiais" name="incluir_caracteres_especiais" checked />
+            <input type="checkbox" id="incluir_caracteres_especiais" name="incluir_caracteres_especiais" {{ incluir_caracteres_especiais_checked }} />
             <label for="incluir_caracteres_especiais" class="ml-2 text-lg">Incluir caracteres especiais</label>
           </fieldset>
           <button type="submit"
@@ -53,18 +53,27 @@
           <p class="font-bold text-lg">Senha gerada:</p>
           <input id="senha" value="{{ senha }}" class="border rounded h-10 px-2 grow ml-4 mr-2" type="password"
             disabled />
-          <div class="flex items-center">
-            <button class="ml-2 bg-slate-300 rounded h-10 px-3 py-1 hover:bg-slate-400" onclick="showSenha()"
+            <div class="flex items-center">
+              <button class="ml-2 bg-slate-300 rounded h-10 px-3 py-1 hover:bg-slate-400" onclick="showSenha()"
               aria-label="ver senha">
               <span id="senha-icon" class="font-emoji">visibility</span>
             </button>
             <button class="ml-2 bg-slate-300 rounded h-10 px-3 py-1 hover:bg-slate-400"
-              onclick="copiarParaAreaDeTransferencia()" aria-label="copiar para área de transferência">
-              <span class="font-emoji">content_copy</span>
-            </button>
-          </div>
-          {% endif %}
+            onclick="copiarParaAreaDeTransferencia()" aria-label="copiar para área de transferência">
+            <span class="font-emoji">content_copy</span>
+          </button>
         </div>
+        {% endif %}
+      </div>
+      {% if forca_senha == 'fraca' %}
+      <p class="bg-red-500 rounded p-2">Força da senha: {{ forca_senha}}</p>
+      {% endif %}
+      {% if forca_senha == 'boa' %}
+      <p class="bg-orange-500 rounded p-2">Força da senha: {{ forca_senha}}</p>
+      {% endif %}
+      {% if forca_senha == 'forte' %}
+      <p class="bg-green-500  rounded p-2">Força da senha: {{ forca_senha}}</p>
+      {% endif %}
       </div>
     </section>
     <section class="max-w-3xl ml-auto mr-auto my-14">
