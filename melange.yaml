@@ -27,18 +27,27 @@ environment:
       - python3-dev
       - py3-pip
       - py3-virtualenv
-      - musl
+
+  accounts:
+    groups:
+      - groupname: nonroot
+        gid: 65532
+    users:
+      - username: nonroot
+        uid: 65532
+    run-as: 65532
 
 pipeline:
   - name: Build Python application
     runs: |
-      EXECDIR="${{targets.destdir}}/usr/bin"
       WEBAPPDIR="${{targets.destdir}}/usr/share/webapps/giropops"
-      mkdir -p "${EXECDIR}" "${WEBAPPDIR}"
-      echo "#!/usr/share/webapps/giropops/venv/bin/python3" > "${EXECDIR}/giropops"
-      cat app.py >> "${EXECDIR}/giropops"
-      chmod +x "${EXECDIR}/giropops"
-      cp -r static "${EXECDIR}"
-      cp -r templates "${EXECDIR}"
+      mkdir -p "${WEBAPPDIR}"
+      echo "#!/usr/share/webapps/giropops/venv/bin/python3" > "${WEBAPPDIR}/giropops"
+      cat app.py >> "${WEBAPPDIR}/giropops"
+      chmod +x "${WEBAPPDIR}/giropops"
+      mkdir "${WEBAPPDIR}/logs"
+      cp -r static "${WEBAPPDIR}"
+      cp -r templates "${WEBAPPDIR}"
+      ls -la "${WEBAPPDIR}"
       virtualenv "${WEBAPPDIR}/venv"
       sh -c "source '${WEBAPPDIR}/venv/bin/activate' && pip install -r requirements.txt"

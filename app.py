@@ -73,7 +73,8 @@ def metrics():
     return generate_latest()
 
 if __name__ == '__main__':
-    # import logging
-    # logging.basicConfig(filename='error.log', level=logging.DEBUG)
-    # start_http_server(8888)
-    app.run(debug=True, port=8030, host='0.0.0.0')
+    import logging
+    logging.basicConfig(filename='/usr/share/webapps/giropops/logs/error.log', level=logging.DEBUG)
+    start_http_server(8088)
+    app.run(debug=False, port=5000, host='0.0.0.0')
+

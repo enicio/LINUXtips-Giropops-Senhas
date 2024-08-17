@@ -4,7 +4,18 @@ docker run --privileged --rm -v "${PWD}":/work \
   --signing-key melange.rsa
 
 docker run --rm --workdir /work -v ${PWD}:/work cgr.dev/chainguard/apko \
-  build apko.yaml giropops-apk-2:test giropops-apk-2.tar \
+  build apko.yaml giropops-apk-2:test images/giropops-apk-2.tar \
   --arch host
 
   docker load < giropops-apk-2.tar
+
+
+  docker run --name giropops-apko-8 -e REDIS_HOST=172.17.0.3 -p 5000:5000 -d giropops-apk-8:test-amd64
+
+
+  imagem 16 e 31 funciona
+
+docker run --name giropops-apko-31 -v $(pwd)/try-unzip:/usr/share/webapps/giropops/logs  -e REDIS_HOST=172.17.0.3 -p 5000:5000 -d giropops-apk-31:test-amd64
+
+
+docker run --name giropops-apko-32 -v $(pwd)/try-unzip:/usr/share/webapps/giropops/logs  -e REDIS_HOST=172.17.0.3 -p 5000:5000 -d giropops-apk-32:test-amd64
